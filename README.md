@@ -224,3 +224,385 @@ git status でチェック git stash で保存など対応が必要
 ```$ git fetch origin master
 $ git merge FETCH_HEAD
 ```
+
+# git コマンド
+
+## ローカルリポジトリの新規作成
+$ git init
+
+## リモートリポジトリをコピー
+$ git clone <リポジトリ名>
+$ $ git clone [リポジトリのアドレス] [[-b] ブランチ名]
+
+
+## 変更履歴をステージに追加
+$ git add [ファイル名]
+$ git add [ディレクトリ名]
+$ git add .
+
+## 変更を記録する（コミット）
+$ git commit
+$ git commit -m "[メッセージ]" [-m "[メッセージ]"]
+$ git commit -v
+
+
+## 現在の変更状況を確認
+$ git status
+
+## 変更差分を確認（ワークツリーとステージの）
+$ git diff
+$ git diff [ファイル名]
+
+## 変更差分を確認（ステージとリポジトリ）
+$ git diff --staged
+
+
+## 変更履歴を確認
+$ git log
+
+#### 一行で表示する
+$ git log --oneline
+
+#### ファイルの変更差分を表示する 
+$ git log -p index.html
+
+#### 表示するコミット数を制限する 
+$ git log -n [コミット数]
+
+## ファイルの削除を記録
+
+#### ファイルごと削除
+$ git rm [ファイル名]
+$ git rm -r [ディレクトリ名]
+
+#### ファイルを残したいとき （リポジトリを削除し、ワークツリーは削除しない）
+$ git rm --cached [ファイル名]
+
+
+## ファイルの移動を記録
+$ git mv [旧ファイル] [新ファイル]
+
+
+
+## リモートリポジトリ(GitHub)を新規追加
+$ git remote add orign [リポジトリのアドレス]
+
+
+## リモートリポジトリ(GitHub)へ送信
+$ git push [リモート名] [ブランチ名] 
+$ git push origin master
+
+
+## コマンドにエイリアス
+$ git config --global alias.ci commit 
+$ git config --global alias.st status 
+$ git config --global alias.br branch 
+$ git config --global alias.co checkout
+
+
+
+## 管理しないファイルをGitの管理から外す
+.gitignore
+
+
+
+
+# 変更を元に戻すコマンド
+
+## ファイルへの変更を取り消す（ステージ → ワークツリー）
+$ git checkout -- <ファイル名>
+$ git checkout -- <ディレクトリ名>
+
+## 全変更を取り消す(ステージ → ワークツリー)
+$ git checkout -- .
+
+
+## ステージした変更を取り消す （リポジトリ → ステージ 、 ワークツリー影響なし）
+$ git reset HEAD <ファイル名>
+$ git reset HEAD <ディレクトリ名>
+
+## 全変更を取り消す （リポジトリ → ステージ 、 ワークツリー影響なし）
+$ git reset HEAD .
+
+
+## 直前のコミットをやり直す（リーカルリポジトリ）
+$ git commit --amend
+
+
+
+# GitHubとやり取りするコマンド
+
+## リモートを表示する
+$ git remote
+
+## 対応するURLを表示
+$ git remote -v
+
+
+## リモートリポジトリを新規追加
+$ git remote add [リモート名] [リモートURL]
+ex:) $ git remote add tutorial https://github.com/user/repo.git
+
+## リモートから情報を取得する （リモートリポジトリ → ローカルリポジトリ）
+$ git fetch [リモート名]
+$ git fetch origin
+
+## リモートから情報を取得してマージ （リポジトリ → ローカルリポジトリ → ワークツリー）
+$ git pull
+$ git pull <リモート名> <ブランチ名>
+$ git pull origin master
+
+#### これは下記コマンドと同じこと
+$ git fetch origin master
+$ git merge origin/master
+
+
+
+## リモートの詳細情報を表示
+$ git remote show <リモート名>
+$ git remote show origin
+
+
+## リモートを変更・削除する
+$ git remote rename <旧リモート名> <新リモート名>
+$ git remote rename tutorial new_tutorial
+
+$ git remote rm <リモート名>
+$ git remote rm new_tutorial
+
+
+
+# ブランチとマージのコマンド
+
+## ブランチを新規追加（ブランチへの切り替えはしない）
+$ git branch <ブランチ名>
+$ git branch feature
+
+## ブランチの一覧を表示
+$ git branch
+
+## 全てのブランチを表示する
+$ git branch -a
+
+
+## ブランチを切り替える
+$ git checkout <既存ブランチ名>
+$ git checkout feature
+
+## ブランチを新規作成して切り替える
+$ git checkout -b <新ブランチ名>
+
+
+## 変更履歴をマージする（作業中のブランチにマージ）
+$ git merge <ブランチ名>
+$ git merge <リモート名/ブランチ名> 
+$ git merge origin/master
+
+
+## ブランチを変更
+$ git branch -m <ブランチ名> 
+$ git branch -m new_branch
+
+## ブランチを削除（マージされてない場合は削除しない）
+$ git branch -d <ブランチ名>
+$ git branch -d feature
+
+## 強制削除する
+$ git branch -D <ブランチ名>
+
+
+
+# リベースのコマンド
+
+## リベースで履歴を整えた形で変更を統合する
+$ git rebase <ブランチ名>
+
+## プルのリベース型
+$ git pull --rebase <リモート名> <ブランチ名>
+$ git pull --rebase origin master
+マージコミットが残らないから、 GitHubの内容を取得したい だけの時は --rebase を使おう
+
+
+## プルをリベース型に設定
+$ git config --global pull.rebase true
+
+## masterブランチでgit pullする時だけ
+$ git config branch.master.rebase true
+
+
+
+## 複数のコミットをやり直す
+
+$ git rebase -i <コミットID>
+$ git rebase -i HEAD~3
+
+ -i は --interactive の略
+ 
+```
+#やり直したいcommitをeditにする edit gh21f6d ヘッダー修正
+pick 193054e ファイル追加
+pick 84gha0d README修正
+#やり直したら実行する
+$ git commit --amend
+
+#次のコミットへ進む(リベース完了)
+$ git rebase --continue
+```
+
+# コミットを並び替える、削除する
+$ git rebase -i HEAD~3
+```
+pick gh21f6d ヘッダー修正
+pick 193054e ファイル追加
+pick 84gha0d README修正
+
+履歴は古い順に表示される。git logとは逆。
+
+
+# 184gha0dのコミットを消す
+# 2193054eを先に適用する
+pick 193054e ファイル追加
+pick gh21f6d ヘッダー修正
+ コミットを削除したり 並び替えたりできる。
+```
+
+# コミットをまとめる
+$ git rebase -i HEAD~3
+```
+pick gh21f6d ヘッダー修正
+pick 193054e ファイル追加
+pick 84gha0d README修正
+↓
+pick gh21f6d ヘッダー修正
+squash 193054e ファイル追加
+squash 84gha0d README修正
+
+ squashを指定するとそのコミットを 直前のコミットと一つにする
+```
+
+
+# コミットを分割
+$ git rebase -i HEAD~3
+```
+pick gh21f6d ヘッダー修正
+pick 193054e ファイル追加
+pick 41gha0d READMEとindex修正
+↓
+pick gh21f6d ヘッダー修正
+pick 193054e ファイル追加
+edit 84gha0d READMEとindex修正
+```
+
+$ git reset HEAD^
+$ git add README
+$ git commit -m 'README修正' $ git add index.html
+$ git commit -m 'index.html修正' $ git rebase --continue
+
+
+# タグ付けのコマンド
+
+## タグの一覧を表示
+git tag
+
+```
+# パターンを指定してタグを表示 
+$ git tag -l "201705" 20170501_01
+20170501_02
+20170503_01
+
+git tagコマンドはアルファベット 順にタグを表示
+```
+
+
+## タグを作成する(注釈付きタグ)
+$ git tag -a [タグ名] -m "[メッセージ]"
+$ git tag -a 20170520_01 -m "version 20170520_01"
+
+```
+-a オプションを付けると注釈付き タグを作成。
+-m オプションを付けるとエディタを立ち上げずにメッセージを入力できる。
+
+・名前を付けられる
+・コメントを付けられる
+・署名を付けられる
+```
+
+
+## タグを作成する(軽量版タグ)
+
+$ git tag [タグ名]
+$ git tag 20170520_01
+
+## 後からタグ付けする
+$ git tag [タグ名] [コミット名]
+$ git tag 20170520_01 8a6cbc4
+
+オプションを付けないと軽量版 タグを作成する。
+
+
+## タグのデータを表示
+$ git show [タグ名]
+$ git show 20170520_01
+
+タグのデータと関連付けられた コミットを表示する。
+
+```
+・タグ付けした人の情報
+・タグ付けした日時
+・注釈メッセージ
+・コミット
+ ```
+
+## タグをリモートリポジトリに送信
+$ git push [ブランチ名] [タグ名]
+$ git push origin 20170520_01
+
+## タグを一斉に送信する
+$ git push origin --tags
+
+ --tags を付けるとローカルにあって リモートリポジトリに存在しない タグを一斉に送信する。
+ 
+
+
+# スタッシュのコマンド
+
+## 作業を一次避難する
+$ git stash
+$ git stash save
+
+stashは「隠す」という意味
+
+ワークツリー、ステージ を退避
+
+
+## 避難した作業を確認
+$ git stash list
+
+避難した作業の一覧を表示
+
+
+## 避難した作業を復元
+
+```
+# 最新の作業を復元する
+$ git stash apply
+
+# ステージの状況も復元する
+$ git stash apply --index
+
+# 特定の作業を復元する
+$ git stash apply [スタッシュ名]
+$ git stash apply stash@{1}
+```
+
+## 避難した作業を削除
+
+```
+# 最新の作業を削除する
+$ git stash drop
+
+# 特定の作業を削除する
+$ git stash drop [スタッシュ名]
+$ git stash drop stash@{1}
+# 全作業を削除する ~ $ git stash clear
+```
