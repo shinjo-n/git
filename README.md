@@ -606,3 +606,24 @@ $ git stash drop [スタッシュ名]
 $ git stash drop stash@{1}
 # 全作業を削除する ~ $ git stash clear
 ```
+
+## 独立した（共通の祖先が無い） Git リポジトリのマージ
+
+1. ローカルでリポジトリを作成
+   - `$ git init`
+   - `$ git add -A`
+   - `$ git commit -m "Initialize repository"`
+
+1. GitHubでリポジトリを作成
+   - "Initialize this repository with a README" にチェックを入れると後に conflict になる。
+
+1. リモートリポジトリを追加
+   - git remote add origin <GitHubリポジトリ>
+
+1. ローカルリポジトリの変更をリモートレポジトリに反映
+   - `$ git push origin master`
+
+## 独立した（共通の祖先が無い） Git リポジトリのマージ
+
+1. Conflict が起きた場合はマージする
+   - `$ git merge --allow-unrelated-histories origin/master`
