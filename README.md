@@ -32,6 +32,7 @@
 
 1. コミット
     - `$ git commit -m "refactor: Modify top page's message" -m "" -m "3行目"`
+    - `--allow-empty` 空でコミット
 
 1. リモートリポジトリへプッシュ（HEAD をつけると最新になる）
     - `$ git push origine HEAD`
