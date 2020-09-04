@@ -628,3 +628,24 @@ $ git stash drop stash@{1}
 
 1. Conflict が起きた場合はマージする
    - `$ git merge --allow-unrelated-histories origin/master`
+
+
+
+### rebaseコマンド
+HEADから遡って、まとめたいcommit数 + 1を指定する。
+以下は、HEADから遡って4commitをまとめる例。
+(HEADも含めて4commit)  
+
+$ git rebase -i HEAD~5
+
+先頭行の `This is a just commit` 以外のpickをsもしくはsquashに書き換えて、保存する。
+ちなみに全部sにすると、Cannot 'squash' without a previous commitって怒られる。
+
+あとは自己責任でpush。
+$ git push origin +master
+
+
+
+https://qiita.com/sky0621/items/9811e874edd507a068a4
+
+
